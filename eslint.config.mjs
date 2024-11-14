@@ -2,6 +2,7 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu({
   react: true,
+  ignores: ['components/ui/**/*'],
   rules: {
     'unused-imports/no-unused-imports': 'warn',
     'n/prefer-global/process': 'off',

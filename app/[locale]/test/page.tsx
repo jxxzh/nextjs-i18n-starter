@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
 import useMediaQuery from '@/hooks/use-media-query'
 import { notFound } from 'next/navigation'
 
@@ -16,6 +17,7 @@ export default function Test() {
         query:
         {query ? 'yes' : 'no'}
       </p>
+      <Button>Button</Button>
     </div>
   )
 }
