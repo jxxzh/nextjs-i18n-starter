@@ -9,8 +9,6 @@ interface LocaleConfig {
 export const localesConfig: LocaleConfig[] = [
   // 英语
   { code: 'en', desc: 'English' },
-  // 简体中文
-  { code: 'zh-CN', desc: '简体中文' },
 ]
 
 export const routing = defineRouting({
