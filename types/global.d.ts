@@ -13,7 +13,6 @@ declare global {
       NEXT_PUBLIC_APP_ENV: 'production' | 'development' | 'test'
       NEXT_PUBLIC_APP_NAME: string
       NEXT_PUBLIC_API_BASE_URL: string
-      NEXT_PUBLIC_SUPPORT_EMAIL: string
     }
   }
 }
