@@ -11,7 +11,7 @@ declare global {
     interface ProcessEnv {
       // 自定义环境变量，为了在浏览器环境下访问
       NEXT_PUBLIC_APP_ENV: 'production' | 'development' | 'test'
-      NEXT_PUBLIC_APP_NAME: string
+      NEXT_PUBLIC_SITE_URL: string
       NEXT_PUBLIC_API_BASE_URL: string
     }
   }

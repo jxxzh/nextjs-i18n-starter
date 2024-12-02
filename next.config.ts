@@ -6,6 +6,11 @@ const withNextIntl = createNextIntlPlugin(
 )
 const nextConfig = {
   serverExternalPackages: ['pino', 'pino-pretty'],
+  logging: {
+    fetches: {
+      fullUrl: process.env.NODE_ENV !== 'production',
+    },
+  },
 } satisfies NextConfig
 
 export default withNextIntl(nextConfig)
