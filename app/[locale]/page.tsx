@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Button } from '@/components/ui/button'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 export async function generateMetadata(
@@ -21,6 +22,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     <>
       <h1>{t('Config.title')}</h1>
       <p>{t('Config.description')}</p>
+      <Button>Click me</Button>
     </>
   )
 }
