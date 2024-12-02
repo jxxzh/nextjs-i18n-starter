@@ -19,6 +19,8 @@ export const routing = defineRouting({
   localePrefix: 'as-needed',
 })
 
+export const getLocalePathSegment = (locale: string) => locale === routing.defaultLocale ? '' : `/${locale}`
+
 // Lightweight wrappers around Next.js' navigation APIs
 // that will consider the routing configuration
 export const { Link, redirect, permanentRedirect, usePathname, useRouter }
