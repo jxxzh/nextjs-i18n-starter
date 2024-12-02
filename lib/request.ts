@@ -1,46 +1,58 @@
 import logger from '@/lib/logger'
+import { deepMerge } from '@/utils/object'
 
-export interface CustomRequestOptions {
+interface CustomRequestOptions {
   baseUrl: string
-  parseResponse: (response: any) => any
+  parseResponse: (response: Response) => Promise<any>
 }
 
-export type CombinedRequestOptions = RequestInit & Partial<CustomRequestOptions>
+type CombinedRequestOptions = RequestInit & Partial<CustomRequestOptions>
 
-const defaultOptions: CustomRequestOptions = {
+const defaultOptions = {
   baseUrl: '',
-  parseResponse: response => response,
-}
+  parseResponse: (response) => {
+    return response.json()
+  },
+  headers: {
+    'Content-Type': 'application/json',
+  },
+} satisfies CombinedRequestOptions
 
 const requestLogger = logger.child({ module: 'request' })
 
-export async function baseRequest<T>(url: string, options?: CombinedRequestOptions): Promise<T> {
-  const { parseResponse, baseUrl } = { ...defaultOptions, ...options }
-  const headers = {
-    'Content-Type': 'application/json',
-    ...options?.headers,
-  }
-  if (process.env.NEXT_PUBLIC_APP_ENV === 'development') {
-    logger.info({
-      module: 'request',
-      url,
-      headers,
-      options,
-    })
-  }
+async function baseRequest<T>(
+  path: string,
+  options?: CombinedRequestOptions,
+): Promise<T> {
+  const { parseResponse, baseUrl, headers } = deepMerge(defaultOptions, options)
+  const url = path.startsWith('http') ? path : `${baseUrl}${path}`
+  // if (process.env.NEXT_PUBLIC_APP_ENV === 'development') {
+  //   logger.info({
+  //     module: 'request',
+  //     url,
+  //     options,
+  //   })
+  // }
   try {
-    const response = await fetch(`${baseUrl}${url}`, {
+    const response = await fetch(url, {
       ...options,
       headers,
     })
 
     if (!response.ok) {
       const errorData = await response.json()
-      throw new Error(errorData.message || 'Unknown error')
+      throw new Error(errorData.message || response.statusText || 'Unknown error')
     }
 
-    const res = await response.json()
-    return parseResponse(res) as T
+    const data = parseResponse(response)
+    // if (process.env.NEXT_PUBLIC_APP_ENV === 'development') {
+    //   requestLogger.info({
+    //     url,
+    //     data,
+    //   })
+    // }
+
+    return data
   }
   catch (error) {
     requestLogger.error({
@@ -53,5 +65,7 @@ export async function baseRequest<T>(url: string, options?: CombinedRequestOptio
 }
 
 baseRequest.child = (options?: CombinedRequestOptions) => {
-  return (url: string, requestOptions?: RequestInit) => baseRequest(url, { ...options, ...requestOptions })
+  return <T>(url: string, requestOptions?: RequestInit) => baseRequest<T>(url, { ...options, ...requestOptions })
 }
+
+export { baseRequest, type CombinedRequestOptions }
