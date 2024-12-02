@@ -45,4 +45,10 @@ function useBreakpoint(initialValue: Breakpoint = 'zero'): Breakpoint {
   return useSyncExternalStore(subscribe, getSnapshot(initialValue), () => initialValue)
 }
 
-export default useBreakpoint
+// 当屏幕宽度小于等于 sm 时，返回 true
+function useMobile(initialValue: Breakpoint = 'zero') {
+  const breakpoint = useBreakpoint(initialValue)
+  return breakpoint === 'zero' || breakpoint === 'sm'
+}
+
+export { useBreakpoint, useMobile }

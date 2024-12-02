@@ -1,8 +1,19 @@
 import { routing } from '@/lib/i18n/routing'
+import { cn } from '@/lib/utils'
 import { notFound } from 'next/navigation'
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages } from 'next-intl/server'
+import { getMessages, setRequestLocale } from 'next-intl/server'
+import Providers from './providers'
+// 导入全局css
 import '../globals.css'
+// 导入字体文件
+import { Poppins } from 'next/font/google'
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'], // 根据需要的字重选择
+  display: 'swap',
+})
 
 export function generateStaticParams() {
   return routing.locales.map(locale => ({ locale }))
@@ -24,7 +35,7 @@ export default async function LocaleLayout({
   }
 
   // Enable static rendering
-  // setRequestLocale(locale)
+  setRequestLocale(locale)
 
   // Providing all messages to the client
   // side is the easiest way to get started
@@ -32,9 +43,14 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body>
+      <body className={cn(
+        poppins.className,
+      )}
+      >
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <Providers locale={locale}>
+            {children}
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>
