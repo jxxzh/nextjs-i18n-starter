@@ -1,10 +1,17 @@
 import type { BlogInfo } from '@/lib/cms/model'
 import CoverDisqus from '@/lib/disqus/cover-disqus'
 import DiscussionEmbed from '@/lib/disqus/discussion-embed'
+import { cn } from '@/lib/utils'
 
-export default function Comments({ blogInfo, locale }: { blogInfo: BlogInfo, locale: string }) {
+interface CommentsProps {
+  blogInfo: BlogInfo
+  locale: string
+  className?: string
+}
+
+export default function Comments({ blogInfo, locale, className }: CommentsProps) {
   return (
-    <div style={{ position: 'relative' }}>
+    <div className={cn('relative', className)}>
       <DiscussionEmbed
         shortname={process.env.DISQUS_PRODUCT_SHOT_NAME}
         config={

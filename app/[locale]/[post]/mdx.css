@@ -1,0 +1,3 @@
+li:has(> input[type="checkbox"]:first-child) {
+  list-style: none ; 
+}

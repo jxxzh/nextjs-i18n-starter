@@ -21,6 +21,9 @@ export async function removeSearchData(locale: string, route: string) {
   const fileName = getSearchKey(locale)
   const oldContent = await getSearchData(locale)
   const oldData = JSON.parse(oldContent || '{}')
+  if (!oldData[route]) {
+    return
+  }
 
   delete oldData[route]
   return writeCacheFile(fileName, JSON.stringify(oldData))
