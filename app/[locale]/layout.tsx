@@ -1,13 +1,14 @@
 import { routing } from '@/lib/i18n/routing'
 import { cn } from '@/lib/utils'
-import { notFound } from 'next/navigation'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
+// 导入字体文件
+import { Poppins } from 'next/font/google'
+import { notFound } from 'next/navigation'
+import ClientInitialization from './client-initialization'
 import Providers from './providers'
 // 导入全局css
 import '../globals.css'
-// 导入字体文件
-import { Poppins } from 'next/font/google'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -49,6 +50,7 @@ export default async function LocaleLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <Providers locale={locale}>
+            <ClientInitialization locale={locale} />
             {children}
           </Providers>
         </NextIntlClientProvider>
