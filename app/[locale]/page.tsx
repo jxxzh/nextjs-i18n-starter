@@ -20,8 +20,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const t = await getTranslations()
   return (
     <>
-      <h1>{t('Config.title')}</h1>
-      <p>{t('Config.description')}</p>
+      <h1 className="text-3xl">{t('Config.title')}</h1>
+      <p className="text-[24px]">{t('Config.description')}</p>
       <Button>Click me</Button>
     </>
   )

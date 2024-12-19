@@ -1,7 +1,10 @@
 /** @type {import('postcss-load-config').Config} */
 const config = {
   plugins: {
-    tailwindcss: {},
+    'tailwindcss': {},
+    'postcss-pxtorem': {
+      rootValue: 16,
+    },
   },
 }
 
