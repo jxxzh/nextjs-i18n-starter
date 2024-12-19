@@ -1,3 +1,4 @@
+import { isDevelopment, isProduction } from '@/utils'
 import pino from 'pino'
 
 const pinoConfig: pino.LoggerOptions = {
@@ -13,11 +14,11 @@ const pinoConfig: pino.LoggerOptions = {
         return obj
       },
     },
-    disabled: process.env.NEXT_PUBLIC_APP_ENV === 'production',
+    disabled: isProduction(),
   },
 }
 
-if (process.env.NODE_ENV === 'development') {
+if (isDevelopment()) {
   pinoConfig.transport = {
     target: 'pino-pretty',
   }

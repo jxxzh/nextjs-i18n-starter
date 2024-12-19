@@ -1,5 +1,5 @@
 import logger from '@/lib/logger'
-import { deepMerge } from '@/utils/object'
+import { deepMerge } from '@/utils'
 
 interface CustomRequestOptions {
   baseUrl: string

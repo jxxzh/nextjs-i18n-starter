@@ -1,6 +1,7 @@
 'use client'
 
 import type { Analytics } from 'firebase/analytics'
+import { isDevelopment } from '@/utils'
 import { getAnalytics, isSupported, logEvent } from 'firebase/analytics'
 import { getApps, initializeApp } from 'firebase/app'
 
@@ -8,8 +9,12 @@ let analytics: Analytics | undefined
 
 export async function createFirebaseApp() {
   // 开发环境不初始化
-  if (process.env.NEXT_PUBLIC_APP_ENV === 'development')
+  if (isDevelopment())
     return
+  // 如果环境变量没有设置，则不初始化
+  if (!process.env.NEXT_PUBLIC_FIREBASE_API_KEY)
+    return
+
   const clientCredentials = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
